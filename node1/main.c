@@ -1,7 +1,7 @@
 /* ---- BYGGERN ------- */
 
-#define F_CPU 4915200 // Clock Speed
-#define BAUD 9600
+#define F_CPU 4915200 // Clock speed
+#define BAUD 9600	// Baud rate
 #define MYUBRR F_CPU/16/BAUD-1
 
 #include <avr/io.h>
@@ -9,23 +9,23 @@
 #include <util/delay.h>
 #include "UART_driver.h"
 #include "SRAM_header.h"
+#include "ADC_header.h"
 
 //ttyS4
 
 int main(void)
 {
-	
+	adc_data data = {0};
 	USART_Init(MYUBRR);
 	fdevopen(USART_Transmit, USART_Receive);
-	
-	//SRAM_init();
-	//SRAM_test();
-	
-	
+	SRAM_Init();
+	ADC_Init();
+	pos_calibrate(&data.x_offs, &data.y_offs);
+	printf("%d\t %d", data.x_offs, data.y_offs);
 	
 	while(1)
 	{
-		
+		//ADC_Read(&data);
 		/* 
 		EXERCISE 1.6
 	
@@ -65,13 +65,13 @@ int main(void)
 		USART_Receive();
 		*/
 		
-		/* EXERCISE 2.3 */
+		/*EXERCISE 2.3
 		// 2Y NAND CS ADC
-		
+		// PC3 -> SRAM, PC2 -> ADC
 	
 		DDRC = (1 << DDC3) | (1 << DDC2);
 		PORTC = (1 << PC2);
+		*/
 	}
-	
 }
 

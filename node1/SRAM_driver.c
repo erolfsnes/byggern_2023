@@ -1,8 +1,10 @@
 #include <avr/io.h>
 #include "SRAM_header.h"
-#define BASE_ADDRESS 0x1800;
+#define BASE_ADDRESS_SRAM 0x1800;
 
-void SRAM_test(void)
+// ** Code found in lab lecture slides and on BlackBoard **
+
+void SRAM_Test(void)
 {
 	volatile char *ext_ram = (char *) 0x1800; // Start address for the SRAM
 	uint16_t ext_ram_size = 0x800;
@@ -37,21 +39,21 @@ void SRAM_test(void)
 	printf("SRAM test completed with \n\r%4d errors in write phase and \n\r%4d errors in retrieval phase\n\r\n\r", write_errors, retrieval_errors);
 }
 
-void SRAM_init(void)
+void SRAM_Init(void)
 {
 	MCUCR |= (1 << SRE); // enable XMEM
 	SFIOR |= (1 << XMM0);
 }
 
-void SRAM_write(uint8_t data, uint16_t addr)
+void SRAM_Write(uint8_t data, uint16_t addr)
 {
-	volatile char * ext_mem = (char*) BASE_ADDRESS;
+	volatile char *ext_mem = (char*) BASE_ADDRESS_SRAM;
 	ext_mem[addr] = data;
 }
 
-uint8_t SRAM_read (uint16_t addr)
+uint8_t SRAM_Read (uint16_t addr)
 {
-	volatile char * ext_mem = (char*) BASE_ADDRESS;
+	volatile char *ext_mem = (char*) BASE_ADDRESS_SRAM;
 	uint8_t ret_val = ext_mem[addr];
 	
 	return ret_val;
