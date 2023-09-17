@@ -2,13 +2,21 @@
 #define ADC_H_
 
 typedef struct{
-	uint8_t ch1;
-	uint8_t ch2;
-	uint8_t ch3;
-	uint8_t ch4;
-	uint8_t x_offs;
-	uint8_t y_offs;
+	volatile uint8_t ch1;
+	volatile uint8_t ch2;
+	volatile uint8_t ch3;
+	volatile uint8_t ch4;
+	volatile int16_t x_offs;
+	volatile int16_t y_offs;
 } adc_data;
+
+typedef enum {
+	NEUTRAL,
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+} joystick_dir;
 
 typedef struct{
 	int8_t x;
@@ -17,7 +25,8 @@ typedef struct{
 
 void ADC_Init(void);
 void ADC_Read(adc_data *data);
-void pos_calibrate(uint8_t *x_offs, uint8_t *y_offs);
-pos_t pos_read(uint8_t x_val, uint8_t y_val);
+void pos_calibrate(int16_t *x_offs, int16_t *y_offs);
+pos_t pos_read(adc_data *data);
+joystick_dir dir_read(pos_t *pos_data);
 
 #endif

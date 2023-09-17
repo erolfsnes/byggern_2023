@@ -16,16 +16,20 @@
 int main(void)
 {
 	adc_data data = {0};
+	pos_t pos_data;
 	USART_Init(MYUBRR);
 	fdevopen(USART_Transmit, USART_Receive);
 	SRAM_Init();
 	ADC_Init();
 	pos_calibrate(&data.x_offs, &data.y_offs);
-	printf("%d\t %d", data.x_offs, data.y_offs);
 	
 	while(1)
 	{
-		//ADC_Read(&data);
+		ADC_Read(&data);
+		pos_data = pos_read(&data);
+		joystick_dir direction = dir_read(&pos_data);
+		printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
+		
 		/* 
 		EXERCISE 1.6
 	
