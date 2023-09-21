@@ -4,8 +4,9 @@
 #define BAUD 9600	// Baud rate
 #define MYUBRR F_CPU/16/BAUD-1
 
-#include <avr/io.h>
 #include <stdio.h>
+#include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "UART_header.h"
 #include "SRAM_header.h"
@@ -26,6 +27,7 @@ int main(void)
 	pos_t pos_data;
 	
 	pos_calibrate(&data.x_offs, &data.y_offs);
+    OLED_reset();
 	
 	while(1)
 	{
@@ -35,18 +37,20 @@ int main(void)
 		pos_data = pos_read(&data);
 		joystick_dir direction = dir_read(&pos_data);
 		//printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
-		for (int i = 0; i < 8; i++)
-		{
-			for (int j = 0; j < 128; j++)
-			{
-				OLED_pos(i, j);
-				if (j % 2) {
-					OLED_write_data(0xFF);
-				} else {
-					OLED_write_data(0x00);
-				}
-			}
-		}
+        OLED_pos(2, 100);
+        OLED_putc('c');
+// 		for (int i = 0; i < 8; i++)
+// 		{
+// 			for (int j = 0; j < 128; j++)
+// 			{
+// 				OLED_pos(i, j);
+// 				if (j % 2) {
+// 					OLED_write_data(0xFF);
+// 				} else {
+// 					OLED_write_data(0x00);
+// 				}
+// 			}
+// 		}
 		
 	
 		/* 

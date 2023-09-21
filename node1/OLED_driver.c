@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <avr/interrupt.h>
 #include <avr/delay.h>
+#include <avr/pgmspace.h>
 #include "OLED_header.h"
+#include "fonts.h"
 #define BASE_ADDRESS_OLED_COMMAND 0x1000;
 #define BASE_ADDRESS_OLED_DATA 0x1200;
 
@@ -75,7 +77,7 @@ void OLED_reset(void)
 {
 	for (int i = 0; i < 8; i++)
 	{
-		OLED_clear_line();
+		OLED_clear_line(i);
 	}
 	//OLED_home();
 }
@@ -89,6 +91,7 @@ void OLED_clear_line(uint8_t line)
 {
 	for (int i = 0; i < 128; i++)
 	{
+    OLED_pos(line, i);
 		OLED_write_data(0x00);
 	}
 }
