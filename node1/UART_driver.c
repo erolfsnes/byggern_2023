@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include "UART_driver.h"
+#include "UART_header.h"
 
 // ** Code found in the datasheet for ATmega162 **
 
@@ -35,5 +35,5 @@ unsigned char USART_Receive( void )
 void USART_Flush(void)
 {
 	unsigned char dummy;
-	while (UCSR0A & (1<<RXC0) ) dummy = UDR0;
+	while (UCSR0A & (1<<RXC0)) dummy = UDR0;
 }

@@ -1,4 +1,4 @@
-/* ---- BYGGERN ------- */
+/* -------- BYGGERN -------- */
 
 #define F_CPU 4915200 // Clock speed
 #define BAUD 9600	// Baud rate
@@ -7,29 +7,48 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include <util/delay.h>
-#include "UART_driver.h"
+#include "UART_header.h"
 #include "SRAM_header.h"
 #include "ADC_header.h"
-
-//ttyS4
+#include "OLED_header.h"
 
 int main(void)
 {
-	adc_data data = {0};
-	pos_t pos_data;
+	// Driver initializations
 	USART_Init(MYUBRR);
 	fdevopen(USART_Transmit, USART_Receive);
 	SRAM_Init();
 	ADC_Init();
+	OLED_init();
+	
+	// Declarations
+	volatile adc_data data = {0};
+	pos_t pos_data;
+	
 	pos_calibrate(&data.x_offs, &data.y_offs);
 	
 	while(1)
 	{
+		_delay_ms(10); // Making the while-loop a bit slower for reading purposes - runs 100 times a second
+		
 		ADC_Read(&data);
 		pos_data = pos_read(&data);
 		joystick_dir direction = dir_read(&pos_data);
-		printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
+		//printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 128; j++)
+			{
+				OLED_pos(i, j);
+				if (j % 2) {
+					OLED_write_data(0xFF);
+				} else {
+					OLED_write_data(0x00);
+				}
+			}
+		}
 		
+	
 		/* 
 		EXERCISE 1.6
 	
