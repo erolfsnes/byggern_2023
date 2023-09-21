@@ -124,3 +124,11 @@ void OLED_set_addressing_mode(OLED_addressing_mode_t mode)
 			break;
 	}
 }
+
+void OLED_putc(char c)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		OLED_write_data(pgm_read_byte(&font8[c - 32][i]));
+	}
+}
