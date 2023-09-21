@@ -71,4 +71,56 @@ void OLED_goto_column(uint8_t column)
 	}
 }
 
-void OLED_reset(void){	}void OLED_home(void){	}void OLED_clear_line(uint8_t line){	}void OLED_print(char* data){	}void OLED_set_brightness(uint8_t lvl){	}
+void OLED_reset(void)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		OLED_clear_line();
+	}
+	//OLED_home();
+}
+
+void OLED_home(void)
+{
+	
+}
+
+void OLED_clear_line(uint8_t line)
+{
+	for (int i = 0; i < 128; i++)
+	{
+		OLED_write_data(0x00);
+	}
+}
+
+void OLED_print(char* data)
+{
+	
+}
+
+void OLED_set_brightness(uint8_t lvl)
+{
+	if (0 <= lvl && lvl < 256) {
+		uint8_t brightness = 255-lvl;
+		OLED_write_command(0x81 | brightness);
+	}
+}
+
+void OLED_set_addressing_mode(OLED_addressing_mode_t mode)
+{
+	switch (mode)
+	{
+		case PAGE_ADDRESSING_MODE:
+			OLED_write_command(0x20);
+			OLED_write_command(0x02);
+			break;
+		case HORIZONTAL_ADDRESSING_MODE:
+			OLED_write_command(0x20);
+			OLED_write_command(0x00);
+			break;
+		case VERTICAL_ADDRESSING_MODE:
+			OLED_write_command(0x20);
+			OLED_write_command(0x01);
+			break;
+	}
+}
