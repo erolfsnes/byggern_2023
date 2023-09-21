@@ -96,11 +96,6 @@ void OLED_clear_line(uint8_t line)
 	}
 }
 
-void OLED_print(char* data)
-{
-	
-}
-
 void OLED_set_brightness(uint8_t lvl)
 {
 	if (0 <= lvl && lvl < 256) {
@@ -133,5 +128,25 @@ void OLED_putc(char c)
 	for (int i = 0; i < 8; i++)
 	{
 		OLED_write_data(pgm_read_byte(&font8[c - 32][i]));
+	}
+}
+
+void OLED_print(char* data)
+{
+	while (*data != '\0')
+	{
+		if ((position.column + 8) > 127)
+		{
+			if ((position.row + 1) > 7)
+			{
+				OLED_pos(0, 0);
+			}
+			else
+			{
+				OLED_pos(position.row + 1, 0);
+			}
+		}
+		OLED_putc(*data);
+		data++;
 	}
 }
