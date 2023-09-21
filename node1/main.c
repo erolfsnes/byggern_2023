@@ -37,8 +37,8 @@ int main(void)
 		pos_data = pos_read(&data);
 		joystick_dir direction = dir_read(&pos_data);
 		//printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
-        OLED_pos(2, 100);
-        OLED_putc('c');
+        OLED_pos(3, 100);
+        OLED_print("hei Dette er ein mykje lengre streng! Eg vil at det skal gaa ut, og naar den gaar ut gaar  opp til toppen ");
 // 		for (int i = 0; i < 8; i++)
 // 		{
 // 			for (int j = 0; j < 128; j++)
