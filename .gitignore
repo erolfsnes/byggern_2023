@@ -1,0 +1,49 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Compiled executables
+*.elf
+
+# AVR Studio project files
+*.aps
+
+# AVR-GCC and AVR-GDB files
+*.obj
+*.elf
+*.eep
+*.lss
+*.map
+*.sym
+*.ltrans.s
+
+# AVR-GCC coverage analysis files
+*.gcda
+*.gcno
+
+# AVR-GDB trace files
+*.trace
+
+# Eclipse project files
+.metadata/
+
+# Atmel Studio files
+*.atsuo
+*.atpack
+
+# AVR Eclipse Plugin
+.target/
+.settings/
+
+# Compiled binary output files
+build/
+#Debug/
+#Release/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows Thumbs.db
+Thumbs.db
+
