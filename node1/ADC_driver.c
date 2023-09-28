@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 #include <avr/delay.h>
 #include "ADC_header.h"
+#include <math.h>
 #define BASE_ADDRESS_ADC 0x1400;
 
 volatile char *ext_mem_adc = (char*) BASE_ADDRESS_ADC;
@@ -86,7 +87,7 @@ pos_t pos_read(adc_data *data)
 joystick_dir dir_read(pos_t *pos_data)
 {
 	// Return joystick direction based on a certain threshold in x and y position
-	uint8_t thold = 15;
+	uint8_t thold = 20;
 	
 	if (abs(pos_data->x) > abs(pos_data->y)) {
 		if (pos_data->x < -thold) return LEFT;
