@@ -32,7 +32,7 @@ int main(void)
     OLED_reset();
 
     menu_init();
-    menu_print(1);
+    menu_print(0);
 
 	
 	while(1)
@@ -41,7 +41,7 @@ int main(void)
 		
 		ADC_Read(&data);
 		pos_data = pos_read(&data);
-		// joystick_dir direction = dir_read(&pos_data);
+		joystick_dir direction = dir_read(&pos_data);
 
 		//printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
 // 		for (int i = 0; i < 8; i++)
