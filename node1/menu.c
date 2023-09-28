@@ -7,6 +7,7 @@
 menu_t menus[2];
 void call_menu_print_0();
 void call_menu_print_1();
+void poll_joystick(adc_data data);
 
 
 void menu_init() {
@@ -31,11 +32,13 @@ void menu_init() {
 
 void call_menu_print_0()
 {
+    menus[0].current_item = 0;
     menu_print(0);
 }
 
 void call_menu_print_1()
 {
+    menus[1].current_item = 0;
     menu_print(1);
 }
 
@@ -52,27 +55,42 @@ void menu_print(int id) {
         }
         OLED_print(menu.items[i].name);
     }
+}
+
+void poll_joystick(adc_data data) {
+    _delay_ms(50);
+    ADC_Read(&data);
+    pos_data = pos_read(&data);
+}
+
+void main_menu() {
+    menu_print(0);
+
     adc_data data;
     ADC_Read(&data);
     pos_t pos_data = pos_read(&data);
-    while (dir_read(&pos_data) != NEUTRAL && joy_button_read()) {
-        printf("in while");
-        _delay_ms(50);
-        ADC_Read(&data);
-        pos_data = pos_read(&data);
-    }
+
     while(1) {
-        _delay_ms(50);
-        ADC_Read(&data);
-        pos_data = pos_read(&data);
+        poll_joystick();
         if (joy_button_read()) {
+            while (joy_button_read()) {
+                poll_joystick();
+            }
             menu.items[menu.current_item].function();
             break;
         } else if (dir_read(&pos_data) == DOWN) {
+            while (dir_read(&pos_data) == DOWN) {
+                poll_joystick();
+            }
+            
             menus[id].current_item = (menu.current_item + 1) % menu.item_count;
             menu_print(id);
             break;
         } else if (dir_read(&pos_data) == UP) {
+            while (dir_read(&pos_data) == UP) {
+                poll_joystick();
+            }
+
             menus[id].current_item = (menu.current_item - 1) % menu.item_count;
             menu_print(id);
             break;

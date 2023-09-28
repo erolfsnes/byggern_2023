@@ -17,5 +17,6 @@ typedef struct{
 
 void menu_init();
 void menu_print(int id);
+void main_menu();
 
 #endif
