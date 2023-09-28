@@ -70,7 +70,7 @@ void poll_joystick(adc_data *data, pos_t *pos_data) {
     ADC_Read(data);
     *pos_data = pos_read(data);
     joystick_dir dir = dir_read(pos_data);
-	printf("%d\t %d\t %d\t %d\t %d\t\r\n", data->ch1, data->ch2, pos_data->x, pos_data->y, dir);
+	// printf("%d\t %d\t %d\t %d\t %d\t\r\n", data->ch1, data->ch2, pos_data->x, pos_data->y, dir);
 }
 
 void main_menu() {

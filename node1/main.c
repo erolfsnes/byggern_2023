@@ -14,6 +14,7 @@
 #include "ADC_header.h"
 #include "OLED_driver.h"
 #include "menu.h"
+#include "spi.h"
 
 int main(void)
 {
@@ -23,6 +24,8 @@ int main(void)
 	SRAM_Init();
 	ADC_Init();
 	OLED_init();
+
+     
 	
 	// Declarations
 	volatile adc_data data = {0};
@@ -31,9 +34,18 @@ int main(void)
 	pos_calibrate(&data.x_offs, &data.y_offs);
     OLED_reset();
 
+    SPI_Init();
+    for(;;) {
+        CS_ENABLE;
+        SPI_Transmit_Recieve(170);
+        CS_DISABLE;
+    }
+
     menu_init();
     main_menu();
 
+    
+    
 	
 	while(1)
 	{
