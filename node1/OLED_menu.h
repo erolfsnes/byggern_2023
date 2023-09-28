@@ -1,6 +1,8 @@
 #ifndef MENU_H_
 #define MENU_H_
 
+#define MAX_ITEMS 4
+
 typedef struct{
     char *name;
     void (*function)(void);
@@ -9,7 +11,8 @@ typedef struct{
 typedef struct{
     int id;
     int current_item;
-	menu_item_t *items[];
+    int item_count;
+	menu_item_t items[MAX_ITEMS];
 } menu_t;
 
 void menu_init();
