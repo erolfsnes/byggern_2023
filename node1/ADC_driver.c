@@ -20,9 +20,8 @@ void ADC_Init(void)
 	// Enable interrupt
 	sei();
     
-    // Define PB0 as output
-    //
-    DDRB &= ~(1 << DDB4);
+    // Define PB0 as input
+    DDRB &= ~(1 << DDB0);
 
 }
 
