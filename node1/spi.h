@@ -4,10 +4,10 @@
 #include <stdint.h>
 
 #define DDR_SPI DDRB
-#define DD_CS DDB4
-#define DD_MOSI DDB5
-#define DD_MISO DDB6
-#define DD_SCLK DDB7
+#define DD_CS PB4
+#define DD_MOSI PB5
+#define DD_MISO PB6
+#define DD_SCLK PB7
 #define CS_ENABLE PORTB &= ~(1 << DD_CS)
 #define CS_DISABLE PORTB |= (1 << DD_CS)
 

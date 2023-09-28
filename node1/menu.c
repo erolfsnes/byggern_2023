@@ -82,7 +82,6 @@ void main_menu() {
 
     while(1) {
         poll_joystick(&data, &pos_data);
-        printf("%d\n\r", dir_read(&pos_data));
         if (dir_read(&pos_data) == DOWN) {
             while (dir_read(&pos_data) == DOWN) {
                 poll_joystick(&data, &pos_data);
@@ -101,7 +100,6 @@ void main_menu() {
 
             menus[id].current_item = (menus[id].current_item - 1);
 
-            printf("asdf");
             if (menus[id].current_item < 0) {
                 menus[id].current_item = menus[id].item_count - 1;
             }

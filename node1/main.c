@@ -15,6 +15,7 @@
 #include "OLED_driver.h"
 #include "menu.h"
 #include "spi.h"
+#include "MCP2515.h"
 
 int main(void)
 {
@@ -33,13 +34,16 @@ int main(void)
 	
 	pos_calibrate(&data.x_offs, &data.y_offs);
     OLED_reset();
+    mcp2515_init();
+   
 
-    SPI_Init();
-    for(;;) {
-        CS_ENABLE;
-        SPI_Transmit_Recieve(170);
-        CS_DISABLE;
-    }
+    // for(;;) {
+    //     CS_ENABLE;
+    //     uint8_t res = SPI_Transmit_Recieve(255);
+    //     CS_DISABLE;
+    //     _delay_ms(5);
+    //     printf("%d", res);
+    // }
 
     menu_init();
     main_menu();
