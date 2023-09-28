@@ -48,3 +48,5 @@ build/
 Thumbs.db
 
 .cache
+
+compile_commands.json
