@@ -1,6 +1,6 @@
 /* -------- BYGGERN -------- */
 
-#include "OLED_menu.h"
+#include "menu.h"
 #define F_CPU 4915200 // Clock speed
 #define BAUD 9600	// Baud rate
 #define MYUBRR F_CPU/16/BAUD-1
@@ -13,7 +13,7 @@
 #include "SRAM_driver.h"
 #include "ADC_header.h"
 #include "OLED_driver.h"
-#include "OLED_menu.h"
+#include "menu.h"
 
 int main(void)
 {

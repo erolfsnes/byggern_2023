@@ -1,4 +1,4 @@
-#include "OLED_menu.h"
+#include "menu.h"
 #include "OLED_driver.h"
 
 menu_t menus[2];
@@ -8,13 +8,13 @@ void menu_init() {
     menus[0].current_item = 0;
     menus[0].item_count = 1;
     menus[0].items[0].name = "Start game";
-    // menus[0].items[0].function = NULL;
+    menus[0].items[0].function = menu_print(1);
 
     menus[1].id = 1;
     menus[1].current_item = 0;
     menus[1].item_count = 4;
     menus[1].items[0].name = "Back";
-    // menus[1].items[0].function = NULL;
+    menus[1].items[0].function = menu_print(0);
     menus[1].items[1].name = "Easy";
     // menus[1].items[1].function = NULL;
     menus[1].items[2].name = "Medium";
@@ -35,5 +35,19 @@ void menu_print(int id) {
             OLED_print(" ");
         }
         OLED_print(menu.items[i].name);
+    }
+    while(1) {
+        if (joy_button_read()) {
+            menu.items[menu.current_item].function();
+            break;
+        } else if (dir_read() == DOWN) {
+            menu.current_item = (menu.current_item + 1) % menu.item_count;
+            menu_print(id);
+            break;
+        } else if (dir_read() == UP) {
+            menu.current_item = (menu.current_item - 1) % menu.item_count;
+            menu_print(id);
+            break;
+        }
     }
 }

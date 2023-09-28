@@ -29,14 +29,9 @@ void ADC_Init(void)
 uint8_t joy_button_read(void)
 {
     static uint8_t button_status;
-
     button_status = (PINB & 1 << PINB0) ? 0: 1;
     
-    printf("%d\n\r", button_status);
-
     return button_status;
-
-
 }
 
 void ADC_Read(volatile adc_data *data)
