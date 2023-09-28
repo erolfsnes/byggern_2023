@@ -1,5 +1,6 @@
 /* -------- BYGGERN -------- */
 
+#include "can.h"
 #include "menu.h"
 #define F_CPU 4915200 // Clock speed
 #define BAUD 9600	// Baud rate
@@ -16,6 +17,7 @@
 #include "menu.h"
 #include "spi.h"
 #include "MCP2515.h"
+#include "can.h"
 
 int main(void)
 {
@@ -35,14 +37,23 @@ int main(void)
 	pos_calibrate(&data.x_offs, &data.y_offs);
     OLED_reset();
     mcp2515_init();
-   
+
+    can_msg_t msg = {0};
+    msg.len = 1;
+    msg.id = 1;
+    for (int i = 0; i < 255; i++) {
+        msg.data[0] = i;
+        can_transmit(msg);
+        _delay_ms(100);
+    }
 
     // for(;;) {
     //     CS_ENABLE;
-    //     uint8_t res = SPI_Transmit_Recieve(255);
+
+    //     uint8_t res = SPI_Transmit_Recieve(170);
     //     CS_DISABLE;
     //     _delay_ms(5);
-    //     printf("%d", res);
+    //     printf("%d\n\r", res);
     // }
 
     menu_init();

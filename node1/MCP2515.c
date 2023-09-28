@@ -78,7 +78,7 @@ uint8_t mcp2515_init()
         return 1;
     }
     else {
-        printf("MCP is in MODE_CONFIG\n\r");
+        printf("MCP is in MODE_CONFIG, %d\n\r", value);
     }
     // More initialization
     mcp2515_set_mode(MODE_LOOPBACK);
@@ -89,7 +89,7 @@ uint8_t mcp2515_init()
         return 1;
     }
     else {
-        printf("MCP is in MODE_LOOPBACK\n\r");
+        printf("MCP is in MODE_LOOPBACK %d\n\r", value);
     }
     return 0;
 }
