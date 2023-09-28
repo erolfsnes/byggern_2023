@@ -1,6 +1,8 @@
 #ifndef ADC_H_
 #define ADC_H_
 
+#include <stdint.h>
+
 typedef struct{
 	volatile uint8_t ch1;
 	volatile uint8_t ch2;
@@ -28,5 +30,6 @@ void ADC_Read(volatile adc_data *data);
 void pos_calibrate(int16_t *x_offs, int16_t *y_offs);
 pos_t pos_read(adc_data *data);
 joystick_dir dir_read(pos_t *pos_data);
+uint8_t joy_button_read(void);
 
 #endif
