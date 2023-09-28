@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include <avr/delay.h>
 #include <avr/pgmspace.h>
-#include "OLED_header.h"
+#include "OLED_driver.h"
 #include "fonts.h"
 #define BASE_ADDRESS_OLED_COMMAND 0x1000;
 #define BASE_ADDRESS_OLED_DATA 0x1200;

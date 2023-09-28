@@ -8,10 +8,10 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
-#include "UART_header.h"
-#include "SRAM_header.h"
+#include "UART_driver.h"
+#include "SRAM_driver.h"
 #include "ADC_header.h"
-#include "OLED_header.h"
+#include "OLED_driver.h"
 
 int main(void)
 {
