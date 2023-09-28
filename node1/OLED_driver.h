@@ -1,5 +1,6 @@
 #ifndef OLED_H_
 #define OLED_H_
+#include <stdint.h>
 
 typedef struct{
 	uint8_t row;

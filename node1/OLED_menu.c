@@ -26,7 +26,7 @@ void menu_init() {
 
 void menu_print(int id) {
     menu_t menu = menus[id];
-    OLED_clear();
+    OLED_reset();
     for (int i = 0; i < menu.item_count; i++) {
         OLED_pos(i, 0);
         if (i == menu.current_item) {
