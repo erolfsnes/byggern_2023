@@ -13,10 +13,15 @@
 #define MCP_CANSTAT 0x0E
 #define MCP_CANCTRL 0x0F
 
+#define MCP_CNF1 0x2A
+#define MCP_CNF2 0x29
+#define MCP_CNF3 0x28
+
 
 #define MODE_MASK 0xE0
 #define MODE_CONFIG (1 << 7)
 #define MODE_LOOPBACK (1 << 6)
+#define MODE_NORMAL 0x00
 
 
 uint8_t mcp2515_read(uint8_t address);

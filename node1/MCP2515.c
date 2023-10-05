@@ -80,7 +80,30 @@ uint8_t mcp2515_init()
     else {
         printf("MCP is in MODE_CONFIG, %d\n\r", value);
     }
+
+    mcp2515_write(MCP_CNF1, 0x44);
+    mcp2515_write(MCP_CNF2, 0xB8);
+    mcp2515_write(MCP_CNF3, 0x05);
+
+
+
+
     // More initialization
+    mcp2515_set_mode(MODE_NORMAL);
+
+    value = mcp2515_read(MCP_CANSTAT);
+    if ((value & MODE_MASK ) != MODE_NORMAL) {
+        printf("MCP2515 is NOT in MODE_NORMAL mode after reset!\n\r");
+        return 1;
+    }
+    else {
+        printf("MCP is in MODE_NORMAL %d\n\r", value);
+    }
+    return 0;
+    
+
+#ifdef MCP_LOOPBACK
+
     mcp2515_set_mode(MODE_LOOPBACK);
 
     value = mcp2515_read(MCP_CANSTAT);
@@ -92,4 +115,6 @@ uint8_t mcp2515_init()
         printf("MCP is in MODE_LOOPBACK %d\n\r", value);
     }
     return 0;
+
+#endif /* ifdef MCP_LOOPBACK */
 }
