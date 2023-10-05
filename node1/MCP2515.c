@@ -30,7 +30,7 @@ void mcp2515_write(uint8_t address, uint8_t data)
 void mcp2515_req_to_send(uint8_t buf)
 {
     CS_ENABLE;
-    SPI_Transmit_Recieve(MCP_REQUEST_TO_SEND | buf);
+    SPI_Transmit_Recieve(MCP_REQUEST_TO_SEND | (1 << buf));
     CS_DISABLE;
 }
 

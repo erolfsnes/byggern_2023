@@ -19,17 +19,19 @@
 #include "MCP2515.h"
 #include "can.h"
 
+can_msg_t can_rx_msg;
+int can_it_flag;
+
 int main(void)
 {
 	// Driver initializations
 	USART_Init(MYUBRR);
 	fdevopen(USART_Transmit, USART_Receive);
+    printf("Start...");
 	SRAM_Init();
 	ADC_Init();
 	OLED_init();
 
-     
-	
 	// Declarations
 	volatile adc_data data = {0};
 	pos_t pos_data;
@@ -37,13 +39,28 @@ int main(void)
 	pos_calibrate(&data.x_offs, &data.y_offs);
     OLED_reset();
     mcp2515_init();
+    can_init();
 
     can_msg_t msg = {0};
-    msg.len = 1;
-    msg.id = 1;
-    for (int i = 0; i < 255; i++) {
-        msg.data[0] = i;
+    msg.len = 2;
+    msg.id = 0;
+    msg.data[0] = 255;
+    msg.data[1] = 0x0F;
+    can_msg_t r_msg = {0};
+
+    for (;;) {
         can_transmit(msg);
+        _delay_ms(10);
+        //r_msg = can_recieve();
+        if (can_it_flag) {
+            can_it_flag = 0;
+            for (int i=0; i < 8; i++) {
+                printf(" %d |", can_rx_msg.data[i]);
+            }
+            printf("id: %d \n\r", can_rx_msg.id);
+        }
+        msg.data[0]++;
+        msg.id++;
         _delay_ms(100);
     }
 
