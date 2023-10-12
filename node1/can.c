@@ -12,6 +12,7 @@ extern int can_it_flag;
 void can_init() {
     mcp2515_write(CAN_RXB0CTRL, 3 << 5); // Turn filter off
     mcp2515_write(CAN_INTE, 0x01);
+    
     cli();
     DDRE &= ~(1 << PE0);
     EMCUCR &= ~(1 << ISC2);

@@ -15,8 +15,14 @@
 #define CAN_INTF 0x2C
 #define RX_DATA_LEN_BUF0 0x65
 #define CAN_RXBUF0_LL 0x66
-
 #define CAN_RXBUF0_INTE 0x01
+
+
+// CAN CONFIG / Bittime registers
+#define CAN_CNF1 0x2A
+#define CAN_CNF2 0x29
+#define CAN_CNF2 0x28
+
 
 
 typedef struct {

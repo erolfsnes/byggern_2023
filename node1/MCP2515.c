@@ -81,14 +81,22 @@ uint8_t mcp2515_init()
         printf("MCP is in MODE_CONFIG, %d\n\r", value);
     }
 
-    mcp2515_write(MCP_CNF1, 0x44);
-    mcp2515_write(MCP_CNF2, 0xB8);
-    mcp2515_write(MCP_CNF3, 0x05);
+    
+    mcp2515_write(MCP_CNF1, 
+            (1 << 7)  // Syncronization jump = 3 Tq
+            | (3)  // BRP = 3
+            );
 
-
-
+    mcp2515_write(MCP_CNF2, 
+            (1 << 7)    // Length of PS2 is determined by the PHSEG2[2:0] bits of CNF3
+            | (4<< 3)  // PS1 = 4
+            | (3)       // Propagation Segment Length bits
+            );
+    mcp2515_write(MCP_CNF3, 5); // PS2 Length bits
 
     // More initialization
+#ifndef MCP_LOOPBACK
+
     mcp2515_set_mode(MODE_NORMAL);
 
     value = mcp2515_read(MCP_CANSTAT);
@@ -100,8 +108,8 @@ uint8_t mcp2515_init()
         printf("MCP is in MODE_NORMAL %d\n\r", value);
     }
     return 0;
-    
-
+ 
+#endif /* ifndef MCP_LOOPBACK */
 #ifdef MCP_LOOPBACK
 
     mcp2515_set_mode(MODE_LOOPBACK);
