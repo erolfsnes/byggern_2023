@@ -2,6 +2,7 @@
 
 #include "can.h"
 #include "menu.h"
+#include "tim.h"
 #define F_CPU 4915200 // Clock speed
 #define BAUD 9600	// Baud rate
 #define MYUBRR F_CPU/16/BAUD-1
@@ -21,6 +22,7 @@
 
 can_msg_t can_rx_msg;
 int can_it_flag;
+int can_tx_flag;
 
 int main(void)
 {
@@ -31,6 +33,7 @@ int main(void)
 	SRAM_Init();
 	ADC_Init();
 	OLED_init();
+    Timer1_Init();
 
 	// Declarations
 	volatile adc_data data = {0};
@@ -48,8 +51,11 @@ int main(void)
     msg.data[1] = 0x0F;
     can_msg_t r_msg = {0};
 	    for (;;) {
-        can_transmit(msg);
-        _delay_ms(500);
+        if (can_tx_flag) {
+            can_transmit(msg);
+            can_tx_flag = 0;
+
+        }
         //r_msg = can_recieve();
         if (can_it_flag) {
             can_it_flag = 0;
