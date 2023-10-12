@@ -54,7 +54,7 @@ can_msg_t can_recieve_it(void) {
     
     uint8_t int_status;
 
-
+	printf("sdfsdf\n\r");
     uint8_t data_len = mcp2515_read(RX_DATA_LEN_BUF0);
     data_len &= 0x3;
     printf("rec len: %d\n\r", data_len);

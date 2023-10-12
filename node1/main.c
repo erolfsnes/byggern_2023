@@ -43,14 +43,13 @@ int main(void)
 
     can_msg_t msg = {0};
     msg.len = 2;
-    msg.id = 0;
+    msg.id = 1;
     msg.data[0] = 255;
     msg.data[1] = 0x0F;
     can_msg_t r_msg = {0};
-
-    for (;;) {
+	    for (;;) {
         can_transmit(msg);
-        _delay_ms(10);
+        _delay_ms(500);
         //r_msg = can_recieve();
         if (can_it_flag) {
             can_it_flag = 0;
@@ -60,7 +59,7 @@ int main(void)
             printf("id: %d \n\r", can_rx_msg.id);
         }
         msg.data[0]++;
-        msg.id++;
+        //msg.id++;
         _delay_ms(100);
     }
 
@@ -76,9 +75,6 @@ int main(void)
     menu_init();
     main_menu();
 
-    
-    
-	
 	while(1)
 	{
 		_delay_ms(10); // Making the while-loop a bit slower for reading purposes - runs 100 times a second
