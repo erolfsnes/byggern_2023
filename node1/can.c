@@ -47,8 +47,10 @@ uint8_t can_transmit(can_msg_t msg)
 }
 
 ISR(INT2_vect) {
+    cli();
     can_rx_msg = can_recieve_it();
     GIFR |= (1 << INTF2);
+    sei();
 }
 
 can_msg_t can_recieve_it(void) {

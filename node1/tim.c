@@ -27,9 +27,8 @@ void Timer1_Init() {
 void Tim1_IRQ_Handler()
 {
     static uint32_t i = 0;
-    if (i >= 5)
+    if (i >= 50)
     {
-        printf("asdfsd\n\r");
         i = 0;
         can_tx_flag = 1;
     }
@@ -37,6 +36,8 @@ void Tim1_IRQ_Handler()
 }
 
 ISR(TIMER1_COMPA_vect) {
+    cli();
     Tim1_IRQ_Handler();
     TIFR |= (1 << OCF1A);
+    sei();
 }

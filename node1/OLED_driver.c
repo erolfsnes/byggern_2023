@@ -46,7 +46,7 @@ void OLED_init(void)
 	 OLED_write_command(0x00U);
 	 OLED_write_command(0xA4U); // Out follows RAM content
 	 OLED_write_command(0xA6U); // Set normal display
-	 OLED_write_command(0xAFU); // Display on
+	 OLED_write_command(0xAFU); // Display okn
 }
 
 void OLED_pos(uint8_t row, uint8_t column)

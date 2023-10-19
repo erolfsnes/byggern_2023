@@ -7,6 +7,7 @@
 uint8_t mcp2515_read(uint8_t address)
 {
     uint8_t result;
+    CS_DISABLE;
     CS_ENABLE; // Select CAN - controller
     SPI_Transmit_Recieve(MCP_READ); // Send read instruction
     SPI_Transmit_Recieve(address); // Send address
@@ -19,6 +20,7 @@ uint8_t mcp2515_read(uint8_t address)
 
 void mcp2515_write(uint8_t address, uint8_t data)
 {
+    CS_DISABLE;
     CS_ENABLE;
     SPI_Transmit_Recieve(MCP_WRITE);
     SPI_Transmit_Recieve(address);
@@ -29,6 +31,7 @@ void mcp2515_write(uint8_t address, uint8_t data)
 
 void mcp2515_req_to_send(uint8_t buf)
 {
+    CS_DISABLE;
     CS_ENABLE;
     SPI_Transmit_Recieve(MCP_REQUEST_TO_SEND | (1 << buf));
     CS_DISABLE;
@@ -36,6 +39,7 @@ void mcp2515_req_to_send(uint8_t buf)
 
 uint8_t mcp2515_read_status()
 {
+    CS_DISABLE;
     CS_ENABLE;
     SPI_Transmit_Recieve(MCP_READ_STATUS);
     uint8_t res = SPI_Transmit_Recieve(0);
@@ -46,6 +50,7 @@ uint8_t mcp2515_read_status()
 
 void mcp2515_modify_bit(uint8_t address, uint8_t mask, uint8_t data)
 {
+    CS_DISABLE;
     CS_ENABLE;
     SPI_Transmit_Recieve(MCP_BIT_MODIFY);
     SPI_Transmit_Recieve(address);
@@ -56,6 +61,7 @@ void mcp2515_modify_bit(uint8_t address, uint8_t mask, uint8_t data)
 
 void mcp2515_reset()
 {
+    CS_DISABLE;
     CS_ENABLE;
     SPI_Transmit_Recieve(MCP_RESET);
     CS_DISABLE;
