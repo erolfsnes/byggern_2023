@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <stdint.h>
+#include <stdio.h>
 #include "spi.h"
 
 
@@ -17,7 +18,14 @@ uint8_t SPI_Transmit_Recieve(uint8_t cData)
     /* Start transmission */
     SPDR = cData;
     /* Wait for transmission complete */
-    while(!(SPSR & (1 << SPIF)));
+    uint16_t timeout = 0;
+    while(!(SPSR & (1 << SPIF))) {
+        timeout++;
+
+        if (timeout > 65535) {
+            printf("SPI timout reached");
+        }
+    }
     return SPDR;
 }
 

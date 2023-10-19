@@ -1,6 +1,9 @@
 #ifndef SRAM_H_
 #define SRAM_H_
 
+#include <stdio.h>
+
+
 void SRAM_Test(void);
 void SRAM_Init(void);
 void SRAM_Write(uint8_t data, uint16_t addr);

@@ -8,8 +8,8 @@ typedef struct{
 	volatile uint8_t ch2;
 	volatile uint8_t ch3;
 	volatile uint8_t ch4;
-	volatile int16_t x_offs;
-	volatile int16_t y_offs;
+	int16_t x_offs;
+	int16_t y_offs;
 } adc_data;
 
 typedef enum{

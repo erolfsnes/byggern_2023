@@ -3,6 +3,8 @@
 SOURCE_DIR := .
 SOURCE_FILES := $(wildcard $(SOURCE_DIR)/*.c)
 
+DEFINES := F_CPU=4915200
+
 
 # Set this flag to "yes" (no quotes) to use JTAG; otherwise ISP (SPI) is used
 PROGRAM_WITH_JTAG := yes
@@ -18,7 +20,7 @@ TARGET_CPU := atmega162
 TARGET_DEVICE := m162
 
 CC := avr-gcc
-CFLAGS := -O -std=c11 -mmcu=$(TARGET_CPU) -ggdb
+CFLAGS := -Wno-binary-constants -O -std=c11 -mmcu=$(TARGET_CPU) -ggdb -Wall -Wpedantic -D $(DEFINES) 
 
 OBJECT_FILES = $(SOURCE_FILES:%.c=$(BUILD_DIR)/%.o)
 

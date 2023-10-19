@@ -76,7 +76,7 @@ void poll_joystick(adc_data *data, pos_t *pos_data) {
 void main_menu() {
     menu_print(id);
 
-    volatile adc_data data = {0};
+    adc_data data = {0};
     pos_t pos_data;
     pos_calibrate(&data.x_offs, &data.y_offs);
 

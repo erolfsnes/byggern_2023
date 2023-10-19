@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <avr/interrupt.h>
 #include <avr/delay.h>
@@ -12,40 +13,40 @@ OLED_pos_t position = {0};
 volatile char *ext_mem_command = (char*) BASE_ADDRESS_OLED_COMMAND;
 volatile char *ext_mem_data = (char*) BASE_ADDRESS_OLED_DATA;
 
-void OLED_write_command(char command)
+void OLED_write_command(uint8_t command)
 {
 	ext_mem_command[0] = command;
 }
 
-volatile void OLED_write_data(char data)
+void OLED_write_data(uint8_t data)
 {
 	ext_mem_data[0] = data;
 }
 
 void OLED_init(void)
 {
-	 OLED_write_command(0xae); // Display off
-	 OLED_write_command(0xa1); // Segment remap
-	 OLED_write_command(0xda); // Common pads hardware: alternative
-	 OLED_write_command(0x12);
-	 OLED_write_command(0xc8); // Common output scan direction:com63~com0
-	 OLED_write_command(0xa8); // Multiplex ration mode:63
-	 OLED_write_command(0x3f);
-	 OLED_write_command(0xd5); // Display divide ratio/osc. freq. mode
-	 OLED_write_command(0x80);
-	 OLED_write_command(0x81); // Contrast control
-	 OLED_write_command(0x50);
-	 OLED_write_command(0xd9); // Set pre-charge period
-	 OLED_write_command(0x21);
-	 OLED_write_command(0x20); // Set Memory Addressing Mode
-	 OLED_write_command(0x02);
-	 OLED_write_command(0xdb); // VCOM deselect level mode
-	 OLED_write_command(0x30);
-	 OLED_write_command(0xad); // Master configuration
-	 OLED_write_command(0x00);
-	 OLED_write_command(0xa4); // Out follows RAM content
-	 OLED_write_command(0xa6); // Set normal display
-	 OLED_write_command(0xaf); // Display on
+	 OLED_write_command(0xAEU); // Display off
+	 OLED_write_command(0xA1U); // Segment remap
+	 OLED_write_command(0xDAU); // Common pads hardware: alternative
+	 OLED_write_command(0x12U);
+	 OLED_write_command(0xC8U); // Common output scan direction:com63~com0
+	 OLED_write_command(0xA8U); // Multiplex ration mode:63
+	 OLED_write_command(0x3FU);
+	 OLED_write_command(0xD5U); // Display divide ratio/osc. freq. mode
+	 OLED_write_command(0x80U);
+	 OLED_write_command(0x81U); // Contrast control
+	 OLED_write_command(0x50U);
+	 OLED_write_command(0xD9U); // Set pre-charge period
+	 OLED_write_command(0x21U);
+	 OLED_write_command(0x20U); // Set Memory Addressing Mode
+	 OLED_write_command(0x02U);
+	 OLED_write_command(0xDBU); // VCOM deselect level mode
+	 OLED_write_command(0x30U);
+	 OLED_write_command(0xADU); // Master configuration
+	 OLED_write_command(0x00U);
+	 OLED_write_command(0xA4U); // Out follows RAM content
+	 OLED_write_command(0xA6U); // Set normal display
+	 OLED_write_command(0xAFU); // Display on
 }
 
 void OLED_pos(uint8_t row, uint8_t column)

@@ -88,6 +88,7 @@ int main(void)
             ADC_Read(&data);
             uint8_t button_status = joy_button_read();
 		    pos_data = pos_read(&data);
+            printf("%d \t %d \t %d \t", pos_data.x, pos_data.y, button_status);
             can_send_joystick_data(&pos_data, button_status);
             printf("Sendt joystick data\r\n");
             can_tx_flag = 0;

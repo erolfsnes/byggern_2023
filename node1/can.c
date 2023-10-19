@@ -133,8 +133,8 @@ void can_send_joystick_data(pos_t *data, uint8_t button_status) {
     msg.data[0] = data->x;
     msg.data[1] = data->y;
     msg.data[2] = button_status;
-    // msg.id = CAN_TX_JOYSTICK;
-    msg.id = 10; 
+    msg.id = CAN_TX_JOYSTICK;
+    msg.len = 3;
 
     can_transmit(msg);
 }

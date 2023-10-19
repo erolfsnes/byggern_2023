@@ -22,7 +22,7 @@
 // CAN CONFIG / Bittime registers
 #define CAN_CNF1 0x2A
 #define CAN_CNF2 0x29
-#define CAN_CNF2 0x28
+// #define CAN_CNF2 0x28
 
 // IDs for can msgs
 typedef enum {

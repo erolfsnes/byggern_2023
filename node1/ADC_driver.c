@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "ADC_header.h"
 #include <math.h>
 #define BASE_ADDRESS_ADC 0x1400;

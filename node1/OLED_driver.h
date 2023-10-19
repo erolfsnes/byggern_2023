@@ -15,8 +15,8 @@ typedef enum{
 
 void OLED_init(void);
 void OLED_pos(uint8_t row, uint8_t column);
-volatile void OLED_write_data(char);
-void OLED_write_command(char command);
+volatile void OLED_write_data(uint8_t);
+void OLED_write_command(uint8_t command);
 void OLED_goto_row(uint8_t row);
 void OLED_goto_column(uint8_t column);
 void OLED_reset(void);
