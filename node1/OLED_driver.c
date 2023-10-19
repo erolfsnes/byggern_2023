@@ -2,12 +2,12 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <avr/pgmspace.h>
 #include "OLED_driver.h"
 #include "fonts.h"
-#define BASE_ADDRESS_OLED_COMMAND 0x1000;
-#define BASE_ADDRESS_OLED_DATA 0x1200;
+#define BASE_ADDRESS_OLED_COMMAND 0x1000
+#define BASE_ADDRESS_OLED_DATA 0x1200
 
 OLED_pos_t position = {0};
 volatile char *ext_mem_command = (char*) BASE_ADDRESS_OLED_COMMAND;

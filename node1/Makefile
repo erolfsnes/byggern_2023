@@ -20,7 +20,9 @@ TARGET_CPU := atmega162
 TARGET_DEVICE := m162
 
 CC := avr-gcc
-CFLAGS := -Wno-binary-constants -O -std=c11 -mmcu=$(TARGET_CPU) -ggdb -Wall -Wpedantic -D $(DEFINES) 
+
+CFLAGS := -O -std=c11 -mmcu=$(TARGET_CPU) -ggdb -Wall -D $(DEFINES) -fdiagnostics-show-option
+# CFLAGS := -Wno-binary-constants -O -std=c11 -mmcu=$(TARGET_CPU) -ggdb -Wall -Wpedantic -D $(DEFINES) 
 
 OBJECT_FILES = $(SOURCE_FILES:%.c=$(BUILD_DIR)/%.o)
 

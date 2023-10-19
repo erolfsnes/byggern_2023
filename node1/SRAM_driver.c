@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <stdlib.h>
 #include "SRAM_driver.h"
 #define BASE_ADDRESS_SRAM 0x1800;
 

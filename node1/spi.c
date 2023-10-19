@@ -22,7 +22,7 @@ uint8_t SPI_Transmit_Recieve(uint8_t cData)
     while(!(SPSR & (1 << SPIF))) {
         timeout++;
 
-        if (timeout > 65535) {
+        if (timeout == 65535) {
             printf("SPI timout reached");
         }
     }

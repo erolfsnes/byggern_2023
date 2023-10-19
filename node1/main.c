@@ -31,16 +31,16 @@ int main(void)
 	fdevopen(USART_Transmit, USART_Receive);
     printf("Start...");
 	SRAM_Init();
-	ADC_Init();
-	OLED_init();
+	//ADC_Init();
+	// OLED_init();
     Timer1_Init();
 
 	// Declarations
 	adc_data data = {0};
 	pos_t pos_data;
 	
-	pos_calibrate(&data.x_offs, &data.y_offs);
-    OLED_reset();
+	// pos_calibrate(&data.x_offs, &data.y_offs);
+    // OLED_reset();
     mcp2515_init();
     can_init();
 
@@ -64,7 +64,7 @@ int main(void)
     //        }
     //        printf("id: %d \n\r", can_rx_msg.id);
     //    }
-    //    msg.data[0]++;
+    //    msg.data[0]++
     //    //msg.id++;
     //    _delay_ms(100);
     //}
@@ -85,12 +85,16 @@ int main(void)
 	{
 
         if (can_tx_flag) {
-            ADC_Read(&data);
-            uint8_t button_status = joy_button_read();
-		    pos_data = pos_read(&data);
-            printf("%d \t %d \t %d \t", pos_data.x, pos_data.y, button_status);
+            // ADC_Read(&data);
+            uint8_t button_status = 1;// joy_button_read();
+		    // pos_data = pos_read(&data);
+            pos_data.x = 1;
+            pos_data.y = 1;
+
+            //printf("%d \t %d \t %d \t", pos_data.x, pos_data.y, button_status);
             can_send_joystick_data(&pos_data, button_status);
-            printf("Sendt joystick data\r\n");
+            // printf("asfsdf");
+            // printf("Sendt joystick data\r\n");
             can_tx_flag = 0;
         }
 		

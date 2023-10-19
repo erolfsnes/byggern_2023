@@ -27,9 +27,9 @@ void Timer1_Init() {
 void Tim1_IRQ_Handler()
 {
     static uint32_t i = 0;
-    if (i >= 500)
+    if (i >= 5)
     {
-        printf("asdfsd");
+        printf("asdfsd\n\r");
         i = 0;
         can_tx_flag = 1;
     }

@@ -11,6 +11,11 @@
 #include <avr/pgmspace.h>
 
 // Font 8x8 - Large
+//
+//
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+
 const unsigned char PROGMEM font8[95][8] = {
 	{0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000}, //
 	{0b00000000,0b00000110,0b01011111,0b01011111,0b00000110,0b00000000,0b00000000,0b00000000}, // !
@@ -307,5 +312,8 @@ const unsigned char PROGMEM font4[95][4] = {
 		{0b00001000,0b00000100,0b00001000,0b00000100}, // ~
 		};
 
+// Code with binary constants
+
+#pragma GCC diagnostic pop
 
 #endif /* FONTS_H_ */

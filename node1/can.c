@@ -130,8 +130,8 @@ can_msg_t can_recieve(void) {
 
 void can_send_joystick_data(pos_t *data, uint8_t button_status) {
     can_msg_t msg = {0};
-    msg.data[0] = data->x;
-    msg.data[1] = data->y;
+    msg.data[0] = (uint8_t)data->x;
+    msg.data[1] = (uint8_t)data->y;
     msg.data[2] = button_status;
     msg.id = CAN_TX_JOYSTICK;
     msg.len = 3;

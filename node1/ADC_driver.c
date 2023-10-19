@@ -3,8 +3,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "ADC_header.h"
-#include <math.h>
-#define BASE_ADDRESS_ADC 0x1400;
+#include <stdlib.h>
+#define BASE_ADDRESS_ADC 0x1400
 
 volatile char *ext_mem_adc = (char*) BASE_ADDRESS_ADC;
 
