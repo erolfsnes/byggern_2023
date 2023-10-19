@@ -1,4 +1,5 @@
 #include "can.h"
+#include "ADC_header.h"
 #include "MCP2515.h"
 #include <avr/interrupt.h>
 #include <stdint.h>
@@ -25,7 +26,7 @@ void can_init() {
 uint8_t can_transmit(can_msg_t msg)
 {
     mcp2515_write(CAN_ID_L, (msg.id & 0x7) << 5); // Set can ID
-    mcp2515_write(CAN_ID_H, (msg.id & ~0x7)); // Set can ID
+    mcp2515_write(CAN_ID_H, (msg.id & ~0x7) >> 3); // Set can ID
 
     if (msg.len > 8) {
         return 1;
@@ -54,10 +55,8 @@ can_msg_t can_recieve_it(void) {
     
     uint8_t int_status;
 
-	printf("sdfsdf\n\r");
     uint8_t data_len = mcp2515_read(RX_DATA_LEN_BUF0);
     data_len &= 0x3;
-    printf("rec len: %d\n\r", data_len);
 
     can_msg_t msg = {0};
     uint8_t addr = CAN_RXBUF0_LL;
@@ -83,7 +82,7 @@ can_msg_t can_recieve_it(void) {
 //    }
 //    printf("id: %d \n\r", msg.id);
     can_it_flag = 1;
-    return msg;
+   return msg;
 }
 
 can_msg_t can_recieve(void) {
@@ -126,4 +125,16 @@ can_msg_t can_recieve(void) {
     printf("id: %d \n\r", msg.id);
 
     return msg;
+}
+
+
+void can_send_joystick_data(pos_t *data, uint8_t button_status) {
+    can_msg_t msg = {0};
+    msg.data[0] = data->x;
+    msg.data[1] = data->y;
+    msg.data[2] = button_status;
+    // msg.id = CAN_TX_JOYSTICK;
+    msg.id = 10; 
+
+    can_transmit(msg);
 }

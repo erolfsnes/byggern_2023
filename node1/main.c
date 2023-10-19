@@ -21,8 +21,8 @@
 #include "can.h"
 
 can_msg_t can_rx_msg;
-int can_it_flag;
-int can_tx_flag;
+int can_it_flag = 0;
+volatile int can_tx_flag = 0;
 
 int main(void)
 {
@@ -36,7 +36,7 @@ int main(void)
     Timer1_Init();
 
 	// Declarations
-	volatile adc_data data = {0};
+	adc_data data = {0};
 	pos_t pos_data;
 	
 	pos_calibrate(&data.x_offs, &data.y_offs);
@@ -50,24 +50,24 @@ int main(void)
     msg.data[0] = 255;
     msg.data[1] = 0x0F;
     can_msg_t r_msg = {0};
-	    for (;;) {
-        if (can_tx_flag) {
-            can_transmit(msg);
-            can_tx_flag = 0;
+	//for (;;) 
+    //    if (can_tx_flag) {
+    //        can_transmit(msg);
+    //        can_tx_flag = 0;
 
-        }
-        //r_msg = can_recieve();
-        if (can_it_flag) {
-            can_it_flag = 0;
-            for (int i=0; i < 8; i++) {
-                printf(" %d |", can_rx_msg.data[i]);
-            }
-            printf("id: %d \n\r", can_rx_msg.id);
-        }
-        msg.data[0]++;
-        //msg.id++;
-        _delay_ms(100);
-    }
+    //    }
+    //    //r_msg = can_recieve();
+    //    if (can_it_flag) {
+    //        can_it_flag = 0;
+    //        for (int i=0; i < 8; i++) {
+    //            printf(" %d |", can_rx_msg.data[i]);
+    //        }
+    //        printf("id: %d \n\r", can_rx_msg.id);
+    //    }
+    //    msg.data[0]++;
+    //    //msg.id++;
+    //    _delay_ms(100);
+    //}
 
     // for(;;) {
     //     CS_ENABLE;
@@ -78,18 +78,23 @@ int main(void)
     //     printf("%d\n\r", res);
     // }
 
-    menu_init();
-    main_menu();
-
+    // menu_init();
+    // main_menu();
+    _delay_ms(10);
 	while(1)
 	{
-		_delay_ms(10); // Making the while-loop a bit slower for reading purposes - runs 100 times a second
-		
-		ADC_Read(&data);
-		pos_data = pos_read(&data);
-		joystick_dir direction = dir_read(&pos_data);
 
-		printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
+        if (can_tx_flag) {
+            ADC_Read(&data);
+            uint8_t button_status = joy_button_read();
+		    pos_data = pos_read(&data);
+            can_send_joystick_data(&pos_data, button_status);
+            printf("Sendt joystick data\r\n");
+            can_tx_flag = 0;
+        }
+		
+
+		// printf("%d\t %d\t %d\t %d\t %d\t\r\n", data.ch1, data.ch2, data.ch3, data.ch4, direction);
 // 		for (int i = 0; i < 8; i++)
 // 		{
 // 			for (int j = 0; j < 128; j++)

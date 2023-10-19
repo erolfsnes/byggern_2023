@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "MCP2515.h"
+#include "ADC_header.h"
 
 #define CAN_ID_H 0x31
 #define CAN_ID_L 0x32
@@ -23,6 +24,10 @@
 #define CAN_CNF2 0x29
 #define CAN_CNF2 0x28
 
+// IDs for can msgs
+typedef enum {
+    CAN_TX_JOYSTICK = 10
+} CAN_TX;
 
 
 typedef struct {
@@ -39,5 +44,6 @@ void can_init();
 uint8_t can_transmit(can_msg_t msg);
 can_msg_t can_recieve(void);
 can_msg_t can_recieve_it(void);
+void can_send_joystick_data(pos_t *data, uint8_t button_status);
 
 #endif /* ifndef CAN_H_ */
