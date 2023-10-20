@@ -11,6 +11,10 @@
 
 #ifndef CAN_INTERRUPT_H_
 #define CAN_INTERRUPT_H_
+#define CAN_JOYSTICK_ID 10
+
+
+
 void CAN0_Handler(void);
 
 

@@ -146,7 +146,7 @@ uint8_t can_send(CAN_MESSAGE* can_msg, uint8_t tx_mb_id)
 		
 		//Set message length and mailbox ready to send
 		CAN0->CAN_MB[tx_mb_id].CAN_MCR = (can_msg->data_length << CAN_MCR_MDLC_Pos) | CAN_MCR_MTCR;
-		printf("Mailbox ready");
+		//printf("Mailbox ready");
 		return 0;
 	}
 	

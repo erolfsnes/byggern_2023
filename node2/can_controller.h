@@ -21,6 +21,12 @@ typedef struct can_message_t
 	char data[8];
 } CAN_MESSAGE;
 
+typedef struct{
+	volatile int8_t x;
+	volatile int8_t y;
+	volatile uint8_t button;
+} joystick_data;
+
 uint8_t can_init_def_tx_rx_mb(uint32_t can_br);
 uint8_t can_init(uint32_t can_br, uint8_t num_tx_mb, uint8_t num_rx_mb);
 
