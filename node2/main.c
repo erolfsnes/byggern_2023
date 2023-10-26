@@ -6,12 +6,17 @@
 #include "can_controller.h"
 #include "can_interrupt.h"
 #include "PWM_driver.h"
+#include "ADC_driver.h"
+#include "game.h"
+
 
 void SysTick_Handler();
 void Systick_Init(void);
 
+int adc_read_flag = 0;
 int can_send_flag = 0;
 int can_receive_flag = 0;
+extern uint32_t uw_tick;
 CAN_MESSAGE message_rx = {0};
 
 int main()
@@ -23,7 +28,7 @@ int main()
 
     WDT->WDT_MR = WDT_MR_WDDIS; // Disable Watchdog Timer
 	
-	uint32_t can_br = CAN_BR_PHASE2(4) | CAN_BR_PHASE1(3) | CAN_BR_PROPAG(3) | CAN_BR_SJW(1) | CAN_BR_BRP(125); //125
+	uint32_t can_br = CAN_BR_PHASE2(4) | CAN_BR_PHASE1(3) | CAN_BR_PROPAG(3) | CAN_BR_SJW(1) | CAN_BR_BRP(125);
 	
 	CAN_MESSAGE message_tx = {0};
 	volatile joystick_data data = {0};
@@ -34,21 +39,28 @@ int main()
 	
     configure_uart();
 	
-	can_init_def_tx_rx_mb(can_br);
+	uint8_t can_error = can_init_def_tx_rx_mb(can_br);
 	
-	if (can_br == 1){
-		printf("Failed to init CAN\n");
+	if (can_error){
+		printf("Failed to init CAN: %d\n", can_error);
 	} else{
 		printf("CAN successfully initialized");
 	}
 	
 	PWM_init();
 	PWM_set_duty_cycle(1.5);
+	ADC_init();
+	
     while (1)
     {
 		if (can_send_flag) {
 			can_send_flag = 0;
 			can_send(&message_tx, 0);
+		}
+		
+		if(adc_read_flag){
+			uint32_t adc_value = ADC_read();
+			score(adc_value);
 		}
 		
 		if (can_receive_flag){
@@ -59,6 +71,8 @@ int main()
 					data.y = (int8_t)message_rx.data[1];
 					data.button = message_rx.data[2];
 					printf("%d\t %d\t %d\t \r\n", data.x, data.y, data.button);
+					PWM_set_duty_cycle(mapValue(-data.x));
+					//printf("mapValue: %f\n\r", mapValue(data.x));
 					break;
 			}
 		}
@@ -67,6 +81,15 @@ int main()
 
 void SysTick_Handler()
 {
+	uw_tick++;
+	
+	static int adc_read_counter = 0;
+	if (adc_read_counter > 10){
+		adc_read_flag = 1;
+		adc_read_counter = 0;
+	}
+	adc_read_counter++;
+	
 	static uint32_t can_rx_timer = 0;
 	if (can_rx_timer >= 1000)
 	{
