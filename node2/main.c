@@ -8,6 +8,8 @@
 #include "PWM_driver.h"
 #include "ADC_driver.h"
 #include "game.h"
+#include "motor_driver.h"
+#include "DAC_driver.h"
 
 
 void SysTick_Handler();
@@ -50,9 +52,11 @@ int main()
 	PWM_init();
 	PWM_set_duty_cycle(1.5);
 	ADC_init();
+	DAC_init();
+	motor_init();
 	
     while (1)
-    {
+    {	
 		if (can_send_flag) {
 			can_send_flag = 0;
 			can_send(&message_tx, 0);
@@ -70,8 +74,10 @@ int main()
 					data.x = (int8_t)message_rx.data[0];
 					data.y = (int8_t)message_rx.data[1];
 					data.button = message_rx.data[2];
-					printf("%d\t %d\t %d\t \r\n", data.x, data.y, data.button);
+					//printf("%d\t %d\t %d\t \r\n", data.x, data.y, data.button);
 					PWM_set_duty_cycle(mapValue(-data.x));
+					motor_write(data.y, data.button);
+					printf("%d\r\n", motor_read());
 					//printf("mapValue: %f\n\r", mapValue(data.x));
 					break;
 			}

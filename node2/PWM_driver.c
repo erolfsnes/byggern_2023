@@ -49,7 +49,7 @@ float mapValue(int8_t input) {
 	if (input > 100) input = 100;
 	else if (input < -100) input = -100;
 	
-	if(input < last_value+4 && input > last_value-4){
+	if(input < last_value+5 && input > last_value-5){
 		input = last_value;
 	}
 	last_value = input;
