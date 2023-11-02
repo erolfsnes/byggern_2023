@@ -61,13 +61,65 @@ void pos_calibrate(int16_t *x_offs, int16_t *y_offs)
 		ADC_Read(&data);
 		x_sum += data.ch1;
 		y_sum += data.ch2;
+        printf("ch1: %d\t ch2: %d\n\r", data.ch1, data.ch2);
 	}
+
 	
-	*x_offs = (x_sum / 10) - 127;
-	*y_offs = (y_sum / 10) - 127;
+	*x_offs = (x_sum / 10);// - 127;
+	*y_offs = (y_sum / 10);// - 127;
 }
 
-pos_t pos_read(adc_data *data)
+
+pos_t pos_read(adc_data *data) {
+    int16_t x_pos;
+    int16_t y_pos;
+    if (data->ch1 > data->x_offs)
+    {
+         x_pos = (((100 * data->ch1) / (255 - data->x_offs)) - ((100 * data->x_offs) / (255 - data->x_offs)));
+    }
+    else {
+        x_pos = (((100 * data->ch1) / data->x_offs) - 100);
+    }
+
+    if (data->ch2 > data->y_offs)
+    {
+         y_pos = (((100 * data->ch2) / (255 - data->y_offs)) - ((100 * data->y_offs) / (255 - data->y_offs)));
+    }
+    else {
+        y_pos = (((100 * data->ch2) / data->y_offs) - 100);
+    }
+    pos_t pos;
+    pos.x = x_pos;
+    pos.y = y_pos;
+    return pos;
+}
+
+/* pos_t pos_read(adc_data *data)
+{	
+	// Calculate the scale factors for both sides of the center position
+	int32_t scale_x_left = 100 / data->x_offs; // Scale factor for the left side of x
+	int32_t scale_x_right = 100 / (255 - data->x_offs); // Scale factor for the right side of x
+	int32_t scale_y_up = 100 / data->y_offs; // Scale factor for the upper side of y
+	int32_t scale_y_down = 100 / (255 - data->y_offs); // Scale factor for the lower side of y
+
+	// Read the joystick positions
+	int32_t x_pos = (int16_t) data->ch1;// - data->x_offs;
+	int32_t y_pos = (int16_t) data->ch2;// - data->y_offs;
+
+	// Normalize the positions based on the center position
+	int16_t norm_pos_x = x_pos > 127 ? (x_pos * scale_x_right) : (x_pos * scale_x_left);
+	int16_t norm_pos_y = y_pos > 127 ? (y_pos * scale_y_down) : (y_pos * scale_y_up);
+
+	// Store transformed x and y data in a struct and return it
+	pos_t pos_data;
+	pos_data.x = norm_pos_x;
+	pos_data.y = norm_pos_y;
+
+	return pos_data;
+} */
+
+
+/* pos_t pos_read(adc_data *data)
 {	
 	// Transform joystick position data to be in the interval (-100, 100) instead of (0, 255)
 	int32_t x_pos = (int16_t) data->ch1 - data->x_offs;
@@ -82,7 +134,7 @@ pos_t pos_read(adc_data *data)
 	pos_data.y = norm_pos_y;
 
 	return pos_data;
-}
+} */
 
 joystick_dir dir_read(pos_t *pos_data)
 {

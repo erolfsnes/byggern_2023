@@ -7,6 +7,8 @@
 
 #define F_CPU 4915200 
 extern volatile int can_tx_flag;
+uint32_t uw_tick = 0;
+uint16_t score = 0;
 
 void Tim1_IRQ_Handler();
 
@@ -27,12 +29,19 @@ void Timer1_Init() {
 void Tim1_IRQ_Handler()
 {
     static uint32_t i = 0;
+    uw_tick++;
+    static uint32_t j = 0;
     if (i >= 50)
     {
         i = 0;
         can_tx_flag = 1;
     }
+    if (j >= 1000) {
+        score++;
+        j = 0;
+    }
     i++;
+    j++;
 }
 
 ISR(TIMER1_COMPA_vect) {

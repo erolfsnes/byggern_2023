@@ -8,6 +8,7 @@
 
 extern can_msg_t can_rx_msg;
 extern int can_it_flag;
+extern int can_score_recieved;
 
 
 void can_init() {
@@ -49,6 +50,12 @@ uint8_t can_transmit(can_msg_t msg)
 ISR(INT2_vect) {
     cli();
     can_rx_msg = can_recieve_it();
+    printf("ID: %d\r\n", can_rx_msg.id);
+    switch (can_rx_msg.id) {
+        case CAN_ID_LIVES:
+            can_score_recieved = 1;
+            break;
+    }
     GIFR |= (1 << INTF2);
     sei();
 }
@@ -70,10 +77,10 @@ can_msg_t can_recieve_it(void) {
 
     uint8_t id_l, id_h;
 
-    id_l = mcp2515_read(CAN_RX_ID_L);
+    id_l = mcp2515_read(CAN_RX_ID_L) >> 5;
     id_h = mcp2515_read(CAN_RX_ID_H);
 
-    msg.id = id_h | (id_l >> 5);
+    msg.id = (id_h << 3) | (id_l);
 
     int_status = mcp2515_read(CAN_INTF);
     // clear interupt 
@@ -84,6 +91,7 @@ can_msg_t can_recieve_it(void) {
 //    }
 //    printf("id: %d \n\r", msg.id);
     can_it_flag = 1;
+
    return msg;
 }
 

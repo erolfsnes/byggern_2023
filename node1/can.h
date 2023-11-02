@@ -24,6 +24,11 @@
 #define CAN_CNF2 0x29
 // #define CAN_CNF2 0x28
 
+// CAN msgs
+#define CAN_ID_LIVES 11
+
+
+
 // IDs for can msgs
 typedef enum {
     CAN_TX_JOYSTICK = 10

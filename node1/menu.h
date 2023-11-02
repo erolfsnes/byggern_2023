@@ -1,11 +1,15 @@
 #ifndef MENU_H_
 #define MENU_H_
 
+#include "can.h"
+#include<stdint.h>
+
 #define MAX_ITEMS 4
+
 
 typedef struct{
     char *name;
-    void (*function)(void);
+    void (*function)(void)
 } menu_item_t;
 
 typedef struct{
@@ -18,5 +22,7 @@ typedef struct{
 void menu_init();
 void menu_print(int id);
 void main_menu();
+void print_score(uint16_t score, uint8_t lives);
+void print_game_over();
 
 #endif
