@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "DAC_driver.h"
 #include "motor_driver.h"
+#include "PID_driver.h"
 
 #define DIR PIO_PD10
 #define EN PIO_PD9
@@ -33,13 +34,6 @@ void motor_init(void)
 
 void motor_write(int8_t input, uint8_t button)
 {
-	//if(button){
-		//PIOD->PIO_CODR = BUTTON;
-		//uint32_t t = uw_tick;
-		//delay_us(150000);
-		//PIOD->PIO_SODR = BUTTON;
-	//}
-	
 	static uint32_t last_time = 0;
 	static uint32_t can_shoot = 1;
 	
@@ -56,13 +50,18 @@ void motor_write(int8_t input, uint8_t button)
 	else if ((uw_tick - last_time) > 50) {
 		PIOD->PIO_SODR = BUTTON;
 	}
-
-	if (input >= 10) {
-		DAC_write(scale_to_motor(input));
-		PIOD->PIO_SODR = DIR | EN;
-	} else if(input <= 10) {
-		DAC_write(scale_to_motor(-input));
+	////printf("%d\n\r", PID_scale(input));
+	//printf("Input: %d\tScale: %d\n\r", input, PID_scale(input));
+	float u = PID_controller(PID_scale(-input), motor_read());
+	if (u >= 0) {
+		//DAC_write(scale_to_motor(input));
+		DAC_write((uint16_t)u*10);
 		PIOD->PIO_CODR = DIR;
+		PIOD->PIO_SODR = EN;
+	} else if(u < 0) {
+		//DAC_write(scale_to_motor(-input));
+		DAC_write((uint16_t)((-u)*10));
+		PIOD->PIO_SODR = DIR;
 		PIOD->PIO_SODR = EN;
 	} else {
 		PIOD->PIO_CODR = EN;
@@ -103,7 +102,7 @@ uint16_t scale_to_motor(int8_t input)
 {
 	// Define the min and max values for uint16_t
 	const uint16_t min_val = 0;
-	const uint16_t max_val = 65535;
+	const uint16_t max_val = 6553;
 
 	// Ensure input is within the expected range
 	if (input < 0) input = 0;
